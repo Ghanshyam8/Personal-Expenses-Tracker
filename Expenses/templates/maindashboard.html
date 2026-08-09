@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title>Document</title>{% endblock %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+<body>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+
+
+
+<style>
+        body{
+            background:#f8f9fa;
+        }
+
+        .hero{
+            padding:90px 0;
+        }
+
+        .hero h1{
+            font-size:55px;
+            font-weight:bold;
+        }
+
+        .hero p{
+            font-size:20px;
+            color:#555;
+        }
+
+        .quote{
+            background:#198754;
+            color:white;
+            border-radius:15px;
+            padding:25px;
+            margin-top:40px;
+            font-style:italic;
+            font-size:22px;
+        }
+
+        .feature-card{
+            transition:0.3s;
+        }
+
+        .feature-card:hover{
+            transform:translateY(-8px);
+        }
+
+        footer{
+            margin-top:80px;
+            background:#212529;
+            color:white;
+            padding:20px;
+            text-align:center;
+        }
+    </style>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold fs-3" >
+            💰 Personal Expenses Tracker
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+
+            <ul class="navbar-nav ms-auto align-items-center">
+
+                
+
+    <li class="nav-item">
+    <form action="{% url 'logout' %}" method="POST" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger rounded-pill px-4">
+            Logout
+        </button>
+    </form>
+</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            
+            <h1 class="mb-4">Welcome to Your Dashboard</h1>
+            <p class="lead text-muted mb-5">Manage your personal data, finances, and track your daily activities seamlessly.</p>
+            
+            <!-- Dashboard Action Card -->
+            <div class="card shadow-sm p-4 bg-light border-0 rounded-3">
+                <h3 class="card-title h5 mb-3 text-dark fw-bold">Financial Management</h3>
+                <p class="card-text text-secondary mb-4">Log your daily spending, organize categories, and view real-time balance metrics.</p>
+                
+<!-- {% if user.is_authenticated %} -->
+    <h2 class="mb-4">
+        Welcome, {{ user.username }} 
+    </h2>
+<!-- {% endif %} -->
+                <div class="row g-4">
+
+        {% for expense in expenses %}
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">{{ expense.title }}</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+                        <strong>Amount:</strong>
+                        Rs. {{ expense.amount }}
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong>
+                        {{ expense.category }}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        {{ expense.date }}
+                    </p>
+
+                    <p>
+                        <strong>Description:</strong><br>
+                        {{ expense.description }}
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white">
+
+                    <a href="{% url 'editexpenses' expense.id %}" class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'deletexpenses' expense.id %}" class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-info text-center">
+                <h4>No expenses found.</h4>
+                <p>Add your first expense to get started.</p>
+            </div>
+
+        </div>
+        
+
+        {% endfor %}
+
+            </div>
+                <a href="{% url 'totalexpenses' %}" class="btn btn-outline-success">
+                        Total Expenses
+                    </a>
+            
+                <!-- The Expense Button -->
+                <a href="{% url 'addexpenses' %}" class="btn btn-primary btn-lg px-4 py-2 shadow-sm fw-medium">
+                    📊 Track Your Expenses
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+</body>
+</html>
