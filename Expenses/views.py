@@ -5,7 +5,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from . models import expenses
 from django.db.models import Sum
-from django.db.models import Q
 
 # Create your views here.
 def home(request):
@@ -56,11 +55,6 @@ def update_expenses(request, pk):
     else:
         form=MainExpenses(instance=expenses_details)
     return render(request, 'saveExpenses.html', {'form':form})
-
-
-# def view_single(request, pk):
-#     expenses_details=get_object_or_404(expenses, id=pk)
-#     return render(request, 'show.html', {'show':expenses_details})
 
 @login_required
 def total_expenses(request):
