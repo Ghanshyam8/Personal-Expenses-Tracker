@@ -25,7 +25,7 @@ def register_form(request):
 
 
 @login_required
-def main_dashboard(request):     
+def dashboard(request):     
     all_expenses=expenses.objects.filter(user=request.user)
     return render(request, 'maindashboard.html', {'expenses':all_expenses})
 
